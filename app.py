@@ -21,7 +21,7 @@ def glucose():
         print(f"auth_header = {auth_header}")
         return jsonify({
             "status": 401,
-            "Error": "Unauthorized. ACCESS_KEY is invalid."
+            "Error": "Unauthorized. Authorization Token is invalid."
         })
         
     return jsonify(get_glucose())
