@@ -3,6 +3,7 @@ import os
 from pydexcom import Dexcom
 
 app = Flask(__name__)
+API_KEY = os.environ.get("API_KEY")
 
 def get_glucose():
     try:
@@ -15,6 +16,14 @@ def get_glucose():
 
 @app.route("/get_glucose")
 def glucose():
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or auth_header != f"Bearer {API_KEY}":
+        print(f"auth_header = {auth_header}")
+        return jsonify({
+            "status": 401,
+            "Error": "Unauthorized. ACCESS_KEY is invalid."
+        })
+        
     return jsonify(get_glucose())
 
 @app.route("/")
